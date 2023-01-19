@@ -1,0 +1,4 @@
+<h2 *ngIf="playerPangolin">Hello, {{playerPangolin.username}}</h2>
+<p *ngIf="playerPangolin">{{playerPangolin.role}}, Level {{playerPangolin.level}}</p>
+<img *ngIf="playerPangolin" [src]="imagePath" alt="">
+<app-friends-list></app-friends-list>

@@ -3,17 +3,22 @@ import { Pangolin } from "./pangolin";
 
 export const collections: {
     pangolins?: mongodb.Collection<Pangolin>;
+    friends?: mongodb.Collection;
  } = {};
+    
 
  export async function connectToDatabase(uri: string) {
     const client = new mongodb.MongoClient(uri);
     await client.connect();
   
-    const db = client.db("meanstack");
-    await applySchemaValidation(db);
+    const db = client.db("Pangolins");
+    
+    //await applySchemaValidation(db);
   
     const pangolinsCollection = db.collection<Pangolin>("pangolins");
     collections.pangolins = pangolinsCollection;
+    const friendsCollection = db.collection<any>("friends");
+    collections.friends = friendsCollection;
  }
 
 
@@ -43,11 +48,11 @@ export const collections: {
     };
 
     await db.command({
-        collMod: "employees",
-        validator: jsonSchema
+        collMod: "pangolins",
+        //validator: jsonSchema
     }).catch(async (error: mongodb.MongoServerError) => {
         if (error.codeName === 'NamespaceNotFound') {
-            await db.createCollection("pangolins", {validator: jsonSchema});
+            await db.createCollection("pangolins"/*, {validator: jsonSchema}*/);
         }
     });
  }

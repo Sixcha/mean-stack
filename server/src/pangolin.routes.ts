@@ -14,7 +14,7 @@ pangolinRouter.get("/", async (_req, res) => {
    }
 });
 
-pangolinRouter.get("/:id", async (req, res) => {
+pangolinRouter.get("/user/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new mongodb.ObjectId(id) };
@@ -85,3 +85,30 @@ pangolinRouter.get("/:id", async (req, res) => {
         res.status(400).send(error.message);
     }
  });
+
+ pangolinRouter.get("/friends/:id", async (req, res) => {
+    try {
+        const id = req?.params?.id;
+        const query = {
+            $or: [ { friend_1: id }, { friend_2: id }]
+         };
+         const friends = await collections.friends.find(query).toArray()
+
+         if (friends) {
+            res.status(200).send(friends);
+        } else {
+            res.status(404).send(false);
+        }
+    } catch (error) {
+        res.status(404).send(`Failed to find a pangolin: ID ${req?.params?.id}`)
+    }
+ });
+
+ pangolinRouter.get("/friends", async (req, res) => {
+    try {
+        const friends = await collections.friends.find({}).toArray();
+        res.status(200).send(friends);
+   } catch (error) {
+       res.status(500).send(error.message);
+   }
+ })

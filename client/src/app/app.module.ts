@@ -1,16 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
+import { MyPangolinComponent } from './components/my-pangolin/my-pangolin.component';
+import { FriendsListComponent } from './components/friends-list/friends-list.component';
+import { FriendComponent } from './components/friend/friend.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    MyPangolinComponent,
+    FriendsListComponent,
+    FriendComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
