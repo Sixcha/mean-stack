@@ -1,4 +1,14 @@
-<h2 *ngIf="playerPangolin">Hello, {{playerPangolin.username}}</h2>
-<p *ngIf="playerPangolin">{{playerPangolin.role}}, Level {{playerPangolin.level}}</p>
-<img *ngIf="playerPangolin" [src]="imagePath" alt="">
+<div *ngIf="playerPangolin">
+    <h2>Hello, {{playerPangolin.username}}</h2>
+    <p>{{playerPangolin.role}}, Level {{playerPangolin.level}}</p>
+    <img [src]="imagePath" alt="">
+    <button (click)="onClick()">Change Role</button>
+    <div *ngIf="showRoles">
+        <div *ngFor="let role of roles">
+            <app-button (click)="changeRole(playerPangolin, role)" text="{{role}}"></app-button>
+            <img src="../../../assets/pictures/{{role}}.png" alt="">
+        </div>
+    </div>
+</div>
+
 <app-friends-list></app-friends-list>

@@ -10,6 +10,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MyPangolinComponent } from './components/my-pangolin/my-pangolin.component';
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
 import { FriendComponent } from './components/friend/friend.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FriendComponent } from './components/friend/friend.component';
     HeaderComponent,
     MyPangolinComponent,
     FriendsListComponent,
-    FriendComponent
+    FriendComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,

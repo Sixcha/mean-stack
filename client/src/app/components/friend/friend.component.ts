@@ -1,4 +1,5 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input,Output,EventEmitter, OnInit } from '@angular/core';
+import { Pangolin } from 'src/app/pangolin';
 
 @Component({
   selector: 'app-friend',
@@ -6,6 +7,10 @@ import { Component,Input } from '@angular/core';
   styleUrls: ['./friend.component.scss']
 })
 export class FriendComponent {
-  @Input() friend:any;
+  @Input() friend:Pangolin;
+  @Output() removeFriend: EventEmitter<Pangolin> = new EventEmitter()
 
+  onClick(pangolin:Pangolin){
+    this.removeFriend.emit(pangolin);
+  }
 }
