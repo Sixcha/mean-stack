@@ -34,13 +34,6 @@ export class FriendsListComponent implements OnInit {
       friend: pangolin._id
     }; this.addFriend(pangolin,newFriendship)} )
 
-
-/*     const newFriendship:Friendship = {
-      user: this.cookiePlaceHolder,
-      friend: this.friendID
-      
-    } */
-
     this.friendName="";
   }
 

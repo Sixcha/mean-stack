@@ -16,8 +16,15 @@ export class HeaderComponent {
 
   constructor(private pangolinService: PangolinService, private cookieService: CookieService){
     this.cookie = this.cookieService.get('user')
-    if (this.cookie)
-    this.loggedIn = true
+    if (this.cookie){
+      if(this.cookie === undefined){
+        this.cookieService.delete('user')
+        return
+      }
+      this.loggedIn = true
+    }
+    
+
   }
 
   signUp(newUser:UserInterface){
@@ -31,7 +38,7 @@ export class HeaderComponent {
 }
 
   logIn(user:UserInterface){
-    this.pangolinService.connect(user).subscribe((result:any) => {this.cookie=result.cookie; this.cookieService.set('user',this.cookie); if(this.cookie) this.loggedIn=true; window.location.reload()})
+    this.pangolinService.connect(user).subscribe((result:any) => {this.cookie=result.cookie; if(this.cookie !== undefined) this.cookieService.set('user',this.cookie); if(this.cookie && this.cookie !== undefined) this.loggedIn=true; window.location.reload()})
   }
 
   disconnect(){

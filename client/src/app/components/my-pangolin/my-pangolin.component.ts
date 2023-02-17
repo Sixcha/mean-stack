@@ -19,9 +19,13 @@ export class MyPangolinComponent implements OnInit {
 
   constructor(private pangolinService:PangolinService, private cookieService: CookieService){
     this.cookie = this.cookieService.get('user')
+    console.log(this.cookie)
   }
 
   ngOnInit(): void {
+    if (this.cookie && this.cookie === undefined){
+      this.cookieService.delete('user')
+    }
       if (this.cookie){
         this.pangolinService.getPangolin(this.cookie).subscribe((pangolin) => (this.playerPangolin = pangolin))
       }
