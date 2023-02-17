@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const config = require('./config')
 import * as mongodb from "mongodb"
 import { UserInterface } from "./user";
 import { PangolinService } from "../../client/src/app/services/pangolin.service"
