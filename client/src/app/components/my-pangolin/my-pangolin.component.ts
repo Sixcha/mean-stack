@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { map, take } from 'rxjs';
 import { Pangolin } from 'src/app/pangolin';
 import { PangolinService } from 'src/app/services/pangolin.service';
+import { CookieService } from 'ngx-cookie-service';
 import  roles from '../../roles.json'
 
 @Component({
@@ -10,17 +11,19 @@ import  roles from '../../roles.json'
   styleUrls: ['./my-pangolin.component.scss']
 })
 export class MyPangolinComponent implements OnInit {
-  private cookiePlaceHolder:string = "63c5b3c3dc3f21f0aad6b72b"
+  private cookie:string;
   playerPangolin:Pangolin;
   imagePath:string;
   showRoles:boolean = false;
   roles:any = Object.values(roles)
 
-  constructor(private pangolinService:PangolinService){ }
+  constructor(private pangolinService:PangolinService, private cookieService: CookieService){
+    this.cookie = this.cookieService.get('user')
+  }
 
   ngOnInit(): void {
-      if (this.cookiePlaceHolder){
-        this.pangolinService.getPangolin(this.cookiePlaceHolder).subscribe((pangolin) => (this.playerPangolin = pangolin))
+      if (this.cookie){
+        this.pangolinService.getPangolin(this.cookie).subscribe((pangolin) => (this.playerPangolin = pangolin))
       }
   }
 

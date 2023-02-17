@@ -1,5 +1,6 @@
 import { Component,Input,OnInit } from '@angular/core';
 import { PangolinService } from 'src/app/services/pangolin.service';
+import { CookieService } from 'ngx-cookie-service';
 import { Friendship } from 'src/app/friendship';
 import { Pangolin } from 'src/app/pangolin';
 
@@ -9,15 +10,16 @@ import { Pangolin } from 'src/app/pangolin';
   styleUrls: ['./friends-list.component.scss']
 })
 export class FriendsListComponent implements OnInit {
-  //@Output() addFriendEvent:EventEmitter<Friendship> = new EventEmitter()
-  cookiePlaceHolder:string ="63c5b3c3dc3f21f0aad6b72b"
+  cookie:string;
   playerFriends:Pangolin[];
   friendName:string;
 
-  constructor(private pangolinService:PangolinService){ }
+  constructor(private pangolinService:PangolinService, private cookieService: CookieService){
+    this.cookie = this.cookieService.get('user')
+  }
 
   ngOnInit():void{
-    this.pangolinService.getFriends(this.cookiePlaceHolder).subscribe((users) => (this.playerFriends = users))
+    this.pangolinService.getFriends(this.cookie).subscribe((users) => (this.playerFriends = users))
   }
 
   onSubmit(){
@@ -28,7 +30,7 @@ export class FriendsListComponent implements OnInit {
     
 
     this.pangolinService.getPangolinByName(this.friendName).subscribe((pangolin) => {let newFriendship = {
-      user: this.cookiePlaceHolder,
+      user: this.cookie,
       friend: pangolin._id
     }; this.addFriend(pangolin,newFriendship)} )
 

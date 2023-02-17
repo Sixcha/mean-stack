@@ -2,6 +2,16 @@ import * as express from "express";
 import * as mongodb from "mongodb";
 import { collections } from "./database";
 import { Pangolin } from "./pangolin";
+import * as jwt from "jsonwebtoken";
+import { User } from "./users";
+import { UserInterface } from "./user";
+import * as dotenv from "dotenv";
+import { Friendship } from "../../client/src/app/friendship";
+let cookie = require('cookie')
+
+dotenv.config();
+
+let cookies = cookie.parse('user')
  
 export const pangolinRouter = express.Router();
 pangolinRouter.use(express.json());
@@ -93,7 +103,20 @@ pangolinRouter.get("/user/:id", async (req, res) => {
 
  pangolinRouter.post("/friends", async (req, res) => {
     try{
-        const newFriendship = req.body;
+        const newFriendship:Friendship = req.body;
+        const query = {
+            "$and": [{
+            "user" : newFriendship.user
+            },
+            {
+            "friend" : newFriendship.friend
+            }]
+        }
+        const toCheck = await collections.friends.findOne(query)
+        if (toCheck){
+            res.status(400).send("Already Friends");
+            return
+        }
         const result = await collections.friends.insertOne(newFriendship)
 
         if (result.acknowledged) {
@@ -179,4 +202,71 @@ pangolinRouter.get("/user/:id", async (req, res) => {
         console.error(error.message);
         res.status(400).send(error.message);
     }
+})
+
+pangolinRouter.post('/register', async (req, res) => {
+
+    const newUser:UserInterface = req.body;
+
+    const name = newUser.username;
+    const query = {
+        username :  name
+    };
+    const resultTest = await collections.users.findOne(query)
+    if (resultTest){
+        res.send('Already a user with the same name')
+        return
+    }
+
+    const result = await collections.users.insertOne(newUser);
+    if (result.acknowledged){
+        const newPangolin:Pangolin = {
+            username: newUser.username,
+            role: 'Alchimiste',
+            level: 1
+        }
+        const pangolinResult = await collections.pangolins.insertOne(newPangolin)
+        if ( pangolinResult.acknowledged){
+            res.status(201).send(`Created a new user and their Pangolin.`);
+        } else {
+            res.status(400).send(`Created a new user but failed to create their Pangolin.`);
+        }
+    }
+    else{
+        res.status(400).send(`Failed to add new user`);
+    }
+    
+})
+
+pangolinRouter.post('/authenticate', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const query = {
+        username :  username
+    };
+    const user = await collections.users.findOne(query)
+    const data = { data: user}
+    if (!user){
+        return res.json({success: false, msg: 'User not found'});
+    }
+    
+    const userInstance = new User('test','test');
+    userInstance.comparePassword(password, user.password, async (err:any, isMatch:any) => {
+        if(err) throw err;
+        if(isMatch) {
+            const query = {
+                username :  user.username
+            };
+            const result = await collections.pangolins.findOne(query)
+            const userCookie = result._id
+            res.json({
+            success: true,
+            cookie: userCookie
+            })
+        } else {
+          return res.json({success: false, msg: 'Wrong password'});
+        }
+      })
+
 })

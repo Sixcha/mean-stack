@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pangolin } from '../pangolin';
 import { Friendship } from '../friendship';
+import { UserInterface } from '../../../../server/src/user';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,13 @@ export class PangolinService {
 
   removeFriend(id:string, friend:Pangolin){
     return this.httpClient.delete(`${this.url}/friends/${id}/${friend._id}`,{responseType:'text'})
+  }
+
+  addUser(user:UserInterface){
+    return this.httpClient.post(`${this.url}/register`, user, {responseType:'text'} )
+  }
+
+  connect(user:UserInterface){
+    return this.httpClient.post(`${this.url}/authenticate`, user, {responseType:'json'})
   }
 }

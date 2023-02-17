@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +12,8 @@ import { MyPangolinComponent } from './components/my-pangolin/my-pangolin.compon
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
 import { FriendComponent } from './components/friend/friend.component';
 import { ButtonComponent } from './components/button/button.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { ButtonComponent } from './components/button/button.component';
     MyPangolinComponent,
     FriendsListComponent,
     FriendComponent,
-    ButtonComponent
+    ButtonComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,7 @@ import { ButtonComponent } from './components/button/button.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

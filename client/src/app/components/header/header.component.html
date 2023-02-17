@@ -1,19 +1,11 @@
 <h1>Welcome to Pangolin!</h1>
 <div *ngIf="!loggedIn">
-    <form>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
-        <input type="submit" value="Log In">
-    </form>
-    <form>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
-        <input type="submit" value="Sign Up">
-    </form>
+    <div>
+        <app-login (onLogIn)="logIn($event)"></app-login>
+    </div>
+    <div>
+        <app-signup (onSignUp)="signUp($event)"></app-signup>
+    </div>
 </div>
 
-<button *ngIf="loggedIn">Disconnect</button>
+<button (click)="disconnect()" *ngIf="loggedIn">Disconnect</button>

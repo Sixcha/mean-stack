@@ -1,0 +1,14 @@
+div{
+    border: 1px solid gray;
+    margin-bottom: 5px;
+    padding: 0 10px 10px 10px;
+    display: flex;
+    justify-content: space-between;
+
+    button{
+        align-self: center;
+        background-color: rgb(158, 39, 39);
+        color:white;
+        border-radius: 10px;
+    }
+}

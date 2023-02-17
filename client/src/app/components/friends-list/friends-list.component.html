@@ -1,6 +1,9 @@
-<app-friend (removeFriend)="deleteFriend(cookiePlaceHolder, friend)" *ngFor="let friend of playerFriends" [friend]="friend"></app-friend>
-<form (ngSubmit)="onSubmit()">
-    <label for="friendName">Username</label>
-    <input type="text" id="friendName" name="friendName" [(ngModel)]="friendName">
-    <input type="submit" value="Add Friend">
-</form>
+<div>
+    <p>Friends</p>
+    <app-friend (removeFriend)="deleteFriend(cookie, friend)" *ngFor="let friend of playerFriends" [friend]="friend"></app-friend>
+    <form (ngSubmit)="onSubmit()">
+        <label for="friendName">Username</label>
+        <input type="text" id="friendName" name="friendName" [(ngModel)]="friendName">
+        <input class="button" type="submit" value="Add Friend">
+    </form>
+</div>

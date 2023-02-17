@@ -1,9 +1,11 @@
 import * as mongodb from "mongodb";
 import { Pangolin } from "./pangolin";
+import { UserInterface } from "./user";
 
 export const collections: {
     pangolins?: mongodb.Collection<Pangolin>;
     friends?: mongodb.Collection;
+    users?: mongodb.Collection<UserInterface>
  } = {};
     
 
@@ -19,10 +21,12 @@ export const collections: {
     collections.pangolins = pangolinsCollection;
     const friendsCollection = db.collection<any>("friends");
     collections.friends = friendsCollection;
+    const usersCollection = db.collection<UserInterface>("users");
+    collections.users = usersCollection
  }
 
 
- async function applySchemaValidation(db: mongodb.Db) {
+/*  async function applySchemaValidation(db: mongodb.Db) {
     const jsonSchema = {
         $jsonSchema: {
             bsonType: "object",
@@ -49,10 +53,10 @@ export const collections: {
 
     await db.command({
         collMod: "pangolins",
-        //validator: jsonSchema
+        validator: jsonSchema
     }).catch(async (error: mongodb.MongoServerError) => {
         if (error.codeName === 'NamespaceNotFound') {
-            await db.createCollection("pangolins"/*, {validator: jsonSchema}*/);
+            await db.createCollection("pangolins", {validator: jsonSchema});
         }
     });
- }
+ } */

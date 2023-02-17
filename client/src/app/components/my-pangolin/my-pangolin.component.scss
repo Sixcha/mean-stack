@@ -1,0 +1,16 @@
+button{
+    background-color: rgb(39, 47, 158);
+    color:white;
+    border-radius: 10px;
+}
+
+.roles{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+
+    img{
+        width: 30%;
+    }
+}
